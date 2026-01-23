@@ -25,10 +25,10 @@ const makePlayer = (name, marker) => {
   return { name, marker };
 };
 
-const player1 = makePlayer("Player 1", "X");
-const player2 = makePlayer("Player 2", "O");
-
 const gameController = (function () {
+  const player1 = makePlayer("Player 1", "X");
+  const player2 = makePlayer("Player 2", "O");
+
   let activePlayer = player1;
   let winningPlayer;
   let isGameOver;
@@ -92,5 +92,3 @@ const gameController = (function () {
 })();
 
 console.log(gameBoard);
-console.log(player1);
-console.log(player2);
