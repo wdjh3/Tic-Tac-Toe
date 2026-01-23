@@ -5,8 +5,27 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tic Tac Toe</title>
 	<link rel="stylesheet" href="./styles.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+	<svg style="display:none;">
+		<symbol id="small-cross" viewBox="0 -960 960 960">
+			<path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z"/>
+		</symbol>
+
+		<symbol id="circle" viewBox="0 0 300 300">
+			<circle
+			    cx="150"
+			    cy="150"
+			    r="64"
+			    fill="none"
+			    stroke="black"
+			    stroke-width="24px"
+			  />
+		</symbol>
+	</svg>
 	<h1>Tic-Tac-Toe</h1>
 	<div class="player-info">
 		<div class="player-one-info">
@@ -20,8 +39,16 @@
 	</div>
 	<div class="player-turn">Player 1's turn! (X)</div>
 	<div class="game-board-container" id="game-board-container">
-		<div class="board-tile" id="board-tile-0"></div>
-		<div class="board-tile" id="board-tile-1"></div>
+		<div class="board-tile" id="board-tile-0">
+			<svg height="100%" width="100%">
+				<use href="#small-cross"></use>
+			</svg>
+		</div>
+		<div class="board-tile" id="board-tile-1">
+			<svg height="100%" width="100%">
+				<use href="#circle"></use>
+			</svg>
+		</div>
 		<div class="board-tile" id="board-tile-2"></div>
 		<div class="board-tile" id="board-tile-3"></div>
 		<div class="board-tile" id="board-tile-4"></div>
