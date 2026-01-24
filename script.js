@@ -90,7 +90,11 @@ const gameController = (function () {
     activePlayer = player1;
   };
 
-  return { playRound, startNewGame };
+  const getActivePlayer = () => {
+    return activePlayer;
+  };
+
+  return { playRound, startNewGame, getActivePlayer };
 })();
 
 const displayController = (function () {
