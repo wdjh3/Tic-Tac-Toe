@@ -70,6 +70,7 @@ const gameController = (function () {
     }
 
     if (gameBoard.updateCell(activePlayer.marker, position)) {
+      displayController.updateBoardDisplay();
       if (checkWin()) {
         winningPlayer = activePlayer;
         console.log(winningPlayer.name + " wins!");
@@ -83,6 +84,7 @@ const gameController = (function () {
   const startNewGame = () => {
     console.log("Starting New Game...");
     gameBoard.clearBoard();
+    displayController.updateBoardDisplay();
     isGameOver = false;
     winningPlayer = undefined;
     activePlayer = player1;
@@ -93,6 +95,20 @@ const gameController = (function () {
 
 const displayController = (function () {
   const boardTiles = document.querySelectorAll(".board-tile");
+
+  const makeTilesClickable = () => {
+    document
+      .getElementById("game-board-container")
+      .addEventListener("click", (e) => {
+        const clickedTile = e.target.closest(".board-tile");
+        if (clickedTile) {
+          console.log(clickedTile.id);
+          const clickedPosition = parseInt(clickedTile.id.slice(-1));
+          console.log(clickedPosition);
+          gameController.playRound(clickedPosition);
+        }
+      });
+  };
 
   const updateBoardDisplay = () => {
     const playBoardPositions = gameBoard.getPlayBoard();
@@ -116,7 +132,8 @@ const displayController = (function () {
     }
   };
 
-  return { updateBoardDisplay };
+  return { updateBoardDisplay, makeTilesClickable };
 })();
 
 console.log(gameBoard);
+displayController.makeTilesClickable();
