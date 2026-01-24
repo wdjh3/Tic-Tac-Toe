@@ -30,6 +30,7 @@ const gameController = (function () {
 
   let activePlayer = player1;
   let winningPlayer;
+  let state = "Active";
   let isGameOver;
 
   const changeActivePlayer = () => {
@@ -67,7 +68,8 @@ const gameController = (function () {
   };
 
   const playRound = (position) => {
-    if (isGameOver) {
+    // if (isGameOver) {
+    if (state !== "Active") {
       console.log("Game is over. Start a new game instead");
       return;
     }
@@ -76,10 +78,15 @@ const gameController = (function () {
       displayController.updateBoardDisplay();
       if (checkWin()) {
         winningPlayer = activePlayer;
+        state = "Won";
         displayController.updateTurnDisplay();
         console.log(winningPlayer.name + " wins!");
-        isGameOver = true;
         return;
+      }
+      if (checkDraw()) {
+        state = "Draw";
+        displayController.updateTurnDisplay();
+        console.log("DRAW!");
       }
       changeActivePlayer();
       displayController.updateTurnDisplay();
@@ -90,7 +97,7 @@ const gameController = (function () {
     console.log("Starting New Game...");
     gameBoard.clearBoard();
     displayController.updateBoardDisplay();
-    isGameOver = false;
+    state = "Active";
     winningPlayer = undefined;
     activePlayer = player1;
     displayController.updateTurnDisplay();
@@ -104,12 +111,17 @@ const gameController = (function () {
     return winningPlayer;
   };
 
+  const getState = () => {
+    return state;
+  };
+
   return {
     playRound,
     startNewGame,
     getActivePlayer,
     getWinningPlayer,
     checkDraw,
+    getState,
   };
 })();
 
@@ -122,6 +134,9 @@ const displayController = (function () {
       .addEventListener("click", (e) => {
         const clickedTile = e.target.closest(".board-tile");
         if (clickedTile) {
+          if (gameController.getState() !== "Active") {
+            displayGameOver();
+          }
           const clickedPosition = parseInt(clickedTile.id.slice(-1));
           gameController.playRound(clickedPosition);
         }
@@ -138,18 +153,27 @@ const displayController = (function () {
     const turnDisplay = document.getElementById("turn-display");
     const activePlayer = gameController.getActivePlayer();
     const winningPlayer = gameController.getWinningPlayer();
+    const gameState = gameController.getState();
 
     console.log(winningPlayer);
 
-    if (winningPlayer !== undefined) {
+    if (gameState === "Won") {
       turnDisplay.textContent = `${winningPlayer.name} Wins!`;
       return true;
     }
 
-    console.log(activePlayer);
-    console.log(turnDisplay);
+    if (gameState === "Draw") {
+      turnDisplay.textContent = `Draw!`;
+      return true;
+    }
+
     turnDisplay.textContent = `${activePlayer.name}'s Turn! (${activePlayer.marker})`;
     return true;
+  };
+
+  const displayGameOver = () => {
+    document.getElementById("turn-display").textContent =
+      "This game is over. Please start a new one.";
   };
 
   const updateBoardDisplay = () => {
