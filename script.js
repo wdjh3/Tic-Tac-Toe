@@ -6,7 +6,6 @@ const gameBoard = (function () {
       return false;
     }
     playBoardPositions[position] = marker;
-    console.log(playBoardPositions);
     return true;
   };
 
@@ -35,7 +34,6 @@ const gameController = (function () {
 
   const changeActivePlayer = () => {
     activePlayer = activePlayer === player1 ? player2 : player1;
-    console.log(activePlayer);
   };
 
   const checkWin = () => {
@@ -63,6 +61,8 @@ const gameController = (function () {
     return false;
   };
 
+  // TODO:: checkdraw()
+
   const playRound = (position) => {
     if (isGameOver) {
       console.log("Game is over. Start a new game instead");
@@ -73,11 +73,13 @@ const gameController = (function () {
       displayController.updateBoardDisplay();
       if (checkWin()) {
         winningPlayer = activePlayer;
+        displayController.updateTurnDisplay();
         console.log(winningPlayer.name + " wins!");
         isGameOver = true;
         return;
       }
       changeActivePlayer();
+      displayController.updateTurnDisplay();
     }
   };
 
@@ -88,13 +90,18 @@ const gameController = (function () {
     isGameOver = false;
     winningPlayer = undefined;
     activePlayer = player1;
+    displayController.updateTurnDisplay();
   };
 
   const getActivePlayer = () => {
     return activePlayer;
   };
 
-  return { playRound, startNewGame, getActivePlayer };
+  const getWinningPlayer = () => {
+    return winningPlayer;
+  };
+
+  return { playRound, startNewGame, getActivePlayer, getWinningPlayer };
 })();
 
 const displayController = (function () {
@@ -106,9 +113,7 @@ const displayController = (function () {
       .addEventListener("click", (e) => {
         const clickedTile = e.target.closest(".board-tile");
         if (clickedTile) {
-          console.log(clickedTile.id);
           const clickedPosition = parseInt(clickedTile.id.slice(-1));
-          console.log(clickedPosition);
           gameController.playRound(clickedPosition);
         }
       });
@@ -120,14 +125,29 @@ const displayController = (function () {
       .addEventListener("click", gameController.startNewGame);
   };
 
+  const updateTurnDisplay = () => {
+    const turnDisplay = document.getElementById("turn-display");
+    const activePlayer = gameController.getActivePlayer();
+    const winningPlayer = gameController.getWinningPlayer();
+
+    console.log(winningPlayer);
+
+    if (winningPlayer !== undefined) {
+      turnDisplay.textContent = `${winningPlayer.name} Wins!`;
+      return true;
+    }
+
+    console.log(activePlayer);
+    console.log(turnDisplay);
+    turnDisplay.textContent = `${activePlayer.name}'s Turn! (${activePlayer.marker})`;
+    return true;
+  };
+
   const updateBoardDisplay = () => {
     const playBoardPositions = gameBoard.getPlayBoard();
-    console.log(playBoardPositions);
-    console.log(boardTiles);
     for (let i = 0; i < playBoardPositions.length; i++) {
       const marker = playBoardPositions[i];
       const boardTile = boardTiles[i];
-      console.log(marker);
       switch (marker) {
         case "X":
           boardTile.innerHTML = `<svg height="100%" width="100%"> <use href="#small-cross"></use> </svg>`;
@@ -142,9 +162,13 @@ const displayController = (function () {
     }
   };
 
-  return { updateBoardDisplay, makeTilesClickable, makeResetButtonFunction };
+  return {
+    updateBoardDisplay,
+    updateTurnDisplay,
+    makeTilesClickable,
+    makeResetButtonFunction,
+  };
 })();
 
-console.log(gameBoard);
 displayController.makeTilesClickable();
 displayController.makeResetButtonFunction();
