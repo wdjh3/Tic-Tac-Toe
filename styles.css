@@ -40,6 +40,19 @@ h1 {
 	background-color: antiquewhite;
 }
 
-.board-tile:hover {
+.board-tile:hover,
+button#start-new-game:hover {
 	cursor: pointer;
+}
+
+button#start-new-game:hover {
+	background-color: #ebdac3;
+}
+
+button#start-new-game {
+	margin: 32px;
+	font-size: 1.5rem;
+	padding: 1rem;
+	border-radius: 1rem;
+	border: 2px solid black;
 }

@@ -110,6 +110,12 @@ const displayController = (function () {
       });
   };
 
+  const makeResetButtonFunction = () => {
+    document
+      .getElementById("start-new-game")
+      .addEventListener("click", gameController.startNewGame);
+  };
+
   const updateBoardDisplay = () => {
     const playBoardPositions = gameBoard.getPlayBoard();
     console.log(playBoardPositions);
@@ -132,8 +138,9 @@ const displayController = (function () {
     }
   };
 
-  return { updateBoardDisplay, makeTilesClickable };
+  return { updateBoardDisplay, makeTilesClickable, makeResetButtonFunction };
 })();
 
 console.log(gameBoard);
 displayController.makeTilesClickable();
+displayController.makeResetButtonFunction();
