@@ -61,7 +61,10 @@ const gameController = (function () {
     return false;
   };
 
-  // TODO:: checkdraw()
+  const checkDraw = () => {
+    const playBoardPositions = gameBoard.getPlayBoard();
+    return playBoardPositions.includes("") ? false : true;
+  };
 
   const playRound = (position) => {
     if (isGameOver) {
@@ -101,7 +104,13 @@ const gameController = (function () {
     return winningPlayer;
   };
 
-  return { playRound, startNewGame, getActivePlayer, getWinningPlayer };
+  return {
+    playRound,
+    startNewGame,
+    getActivePlayer,
+    getWinningPlayer,
+    checkDraw,
+  };
 })();
 
 const displayController = (function () {
