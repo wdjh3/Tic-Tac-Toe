@@ -33,6 +33,11 @@ const gameController = (function () {
   let state = "Active";
   let isGameOver;
 
+  const updatePlayerName = (player1Name, player2Name) => {
+    player1.name = player1Name;
+    player2.name = player2Name;
+  };
+
   const changeActivePlayer = () => {
     activePlayer = activePlayer === player1 ? player2 : player1;
   };
@@ -122,11 +127,26 @@ const gameController = (function () {
     getWinningPlayer,
     checkDraw,
     getState,
+    updatePlayerName,
   };
 })();
 
 const displayController = (function () {
   const boardTiles = document.querySelectorAll(".board-tile");
+
+  const inputToNames = () => {
+    const nameInputs = document.querySelectorAll(".player-name-input");
+    console.log(nameInputs);
+    for (const nameInput of nameInputs) {
+      nameInput.addEventListener("change", (e) => {
+        gameController.updatePlayerName(
+          nameInputs[0].value,
+          nameInputs[1].value,
+        );
+        updateTurnDisplay();
+      });
+    }
+  };
 
   const makeTilesClickable = () => {
     document
@@ -200,8 +220,10 @@ const displayController = (function () {
     updateTurnDisplay,
     makeTilesClickable,
     makeResetButtonFunction,
+    inputToNames,
   };
 })();
 
 displayController.makeTilesClickable();
 displayController.makeResetButtonFunction();
+displayController.inputToNames();
