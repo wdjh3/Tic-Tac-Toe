@@ -65,3 +65,7 @@ button#start-new-game {
 	border-radius: 1rem;
 	border: 2px solid black;
 }
+
+button#start-new-game:active {
+	background-color: #b8a995;
+}
