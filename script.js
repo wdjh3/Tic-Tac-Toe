@@ -98,6 +98,22 @@ const displayController = (function () {
     const playBoardPositions = gameBoard.getPlayBoard();
     console.log(playBoardPositions);
     console.log(boardTiles);
+    for (let i = 0; i < playBoardPositions.length; i++) {
+      const marker = playBoardPositions[i];
+      const boardTile = boardTiles[i];
+      console.log(marker);
+      switch (marker) {
+        case "X":
+          boardTile.innerHTML = `<svg height="100%" width="100%"> <use href="#small-cross"></use> </svg>`;
+          break;
+        case "O":
+          boardTile.innerHTML = `<svg height="100%" width="100%"> <use href="#circle"></use> </svg>`;
+          break;
+        default:
+          boardTile.innerHTML = "";
+          break;
+      }
+    }
   };
 
   return { updateBoardDisplay };
