@@ -91,4 +91,16 @@ const gameController = (function () {
   return { playRound, startNewGame };
 })();
 
+const displayController = (function () {
+  const boardTiles = document.querySelectorAll(".board-tile");
+
+  const updateBoardDisplay = () => {
+    const playBoardPositions = gameBoard.getPlayBoard();
+    console.log(playBoardPositions);
+    console.log(boardTiles);
+  };
+
+  return { updateBoardDisplay };
+})();
+
 console.log(gameBoard);
